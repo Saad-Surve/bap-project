@@ -72,7 +72,7 @@ def get_branch_based_analytics(branch_name):
     Output('branch-domain-pie', 'figure'),
     [Input('branch-domain-radio', 'value')]
 )
-def update_graph(selected_branch):
+def update_graph_1(selected_branch):
     branch_domain_counts = get_branch_based_analytics(selected_branch)
     fig = px.bar(branch_domain_counts, y='Domain',x='Count',
                  labels={'Domain': 'Domain', 'Count': 'Count'}, title=f'Analytics for Branch {selected_branch}',orientation='h')
@@ -139,7 +139,7 @@ def update_wordcloud(_):
 @callback(
     Output('central-tendency-graph', 'figure'),
     [Input('column-dropdown', 'value')])
-def update_graph(selected_column):
+def update_graph_2(selected_column):
     # Calculate the measure of central tendency
     mean = df[selected_column].mean()
     median = df[selected_column].median()
@@ -159,7 +159,7 @@ domain_marks = df[['Domain', '70% Project Implementaion (20)']].assign(Domains=d
 @callback(
     Output('marks-heatmap', 'figure'),
     [Input('column-dropdown', 'value')])
-def update_graph(selected_column):
+def update_graph_3(selected_column):
     # Create the scatter plot
     marks_columns = ["Field/Market Survey & Literature Survey (10)","Problem Definition (5)","Presentation (10)","Project Planning (5)","Phase 1 marks","Architecture,Design/Algorithm Testing/Simulation/ System Flow Diagram (DFD)","70% Project Implementaion (20)","Ethics","Team Work (5)","Presentation(5)","Phase 2 marks","Presentation (10)","Implementation","Project Report (10)","Phase 3 marks","ESE marks"]
     short_marks_columns = [col[:5] for col in marks_columns]
@@ -174,7 +174,7 @@ def update_graph(selected_column):
 @callback(
     Output('stacked-bar-chart', 'figure'),
     [Input('column-dropdown', 'value')])
-def update_graph(selected_column):
+def update_graph_4(selected_column):
     phases = ["Phase 1 marks", "Phase 2 marks", "Phase 3 marks"]
     categories_per_phase = {
         "Phase 1 marks": ["Field/Market Survey & Literature Survey (10)", "Problem Definition (5)",
