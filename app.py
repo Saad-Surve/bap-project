@@ -265,11 +265,14 @@ def update_output(n_clicks, value):
 
         # Get the top 5 faculty recommendations
         top_5_recommendations = scores.sort_values(ascending=False).head(5)
-
+        
         return html.Div([
             html.H4('Top 5 Faculty Recommendations:', className="text-lg font-bold mt-3"),
             html.Ul([html.Li(faculty, className="border border-gray-300 p-2 rounded mb-2") for faculty in top_5_recommendations.index], className="divide-y divide-gray-300")
         ])
+
+        # ----------------------- For testing ------------------------------------ 
+        # return top_5_recommendations
 
 
 
