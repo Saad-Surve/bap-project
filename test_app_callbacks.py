@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
-from app import update_graph_1, get_branch_based_analytics, update_graph_2, update_output
+from app import update_graph_1, get_branch_based_analytics, update_graph_2, update_output,calculate_recommendation
 
 # Test 'AIML' Branch domain analysis
 def test_update_graph_branchwise_domain_analysis():
@@ -55,8 +55,14 @@ def test_faculty_recommendation():
     subject = 'MacHinE LEarniNg'
     expected_professors = [['Prof. Jignesh Sisodia', 0.9821875000000001], ['Prof. Swapnali Kurhade',0.922684733265651], ['Prof. Khushbhu Chauhan', 0.7680410147421811], ['Dr. Surekha Dholay',  0.7590451769533382], ['Prof. Rupali sawant', 0.7484931568147637]] 
 
-    actual_professors = update_output(1, subject)
-    actual_professors = actual_professors.reset_index()
-    actual_professors = actual_professors.values.tolist()
+
+    actual_professors = calculate_recommendation(subject)
+    print(actual_professors)
+    a = []
+    for teacher,probability in actual_professors.items():
+        a.append([teacher,probability])
+    actual_professors = a
+    # actual_professors = actual_professors.reset_index()
+    # actual_professors = actual_professors.values.tolist()
     
     assert expected_professors == actual_professors

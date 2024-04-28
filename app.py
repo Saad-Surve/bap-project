@@ -274,7 +274,32 @@ def update_output(n_clicks, value):
         # ----------------------- For testing ------------------------------------ 
         # return top_5_recommendations
 
+def calculate_recommendation(value):
+    user_domains = [value]
 
+        # Transform the user_domains list into a vector
+    user_vector = vectorizer.transform([' '.join(user_domains)])
+
+    # Calculate the cosine similarity between the user_vector and the faculty vectors
+    user_sim = cosine_similarity(faculty_vectors, user_vector)
+
+    # Flatten the user_sim array and create a Series with the faculty names as the index
+    domain_scores = pd.Series(user_sim.flatten(), index=faculty_df['Name of Faculty'])
+
+    # Normalize the domain scores
+    scaler = MinMaxScaler()
+    domain_scores = pd.Series(scaler.fit_transform(domain_scores.values.reshape(-1, 1)).flatten(), index=faculty_df['Name of Faculty'])
+
+    # Recalculate faculty_ese within the callback function
+    faculty_ese = student_df.groupby('Project Guide')['ESE marks'].mean()
+    faculty_ese = pd.Series(scaler.fit_transform(faculty_ese.values.reshape(-1, 1)).flatten(), index=faculty_ese.index)
+
+    # Calculate the final scores with 80% weight to domain expertise and 20% weight to ESE marks
+    scores = 0.8 * domain_scores + 0.2 * faculty_ese
+
+    # Get the top 5 faculty recommendations
+    top_5_recommendations = scores.sort_values(ascending=False).head(5)
+    return top_5_recommendations
 
 
 # Create a Dash app
